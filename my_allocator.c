@@ -40,7 +40,7 @@ Addr memory;
 Addr* free_list;
 unsigned int fib[1000];
 
-struct Header{
+struct header{
     Addr next;
     char symbol;
     int size;
@@ -59,13 +59,13 @@ struct Header{
 /* Don't forget to implement "init_allocator" and "release_allocator"! */
 
 Addr increment_addr(Addr address, int sum) {
-    return static_cast<char*> (address) + sum;
+    return (char*)(address) + sum;
 }
 
 void create_Header(Addr current, int size, char symbol, Addr next) {
-    static_cast<header*>(current)->size = size;
-	static_cast<header*>(current)->symbol = symbol;
-	static_cast<header*>(current)->next = next;
+    (header*)(current)->size = size;
+	(header*)(current)->symbol = symbol;
+	(header*)(current)->next = next;
 }
 
 unsigned int fib_at_index(unsigned int num) {
@@ -80,24 +80,6 @@ unsigned int fib_at_index(unsigned int num) {
     }
     return fib[i];
 }
-
-bool fib_number(unsigned int input_num) {
-    int num1 = 1;
-    int num2 = 2;
-    int temp;
-    int result = 0;
-    
-    while(num2 < input_num) {
-        temp = num2;
-        num2 = num1 + num2;
-        num1 = temp;
-        if (num2 == input_num) {
-            result = true;
-            break;
-        }
-    }
-    return true;
-} //fib_number might be useless
 
 unsigned int largest_fib_index(unsigned int blocks) {
     
@@ -133,13 +115,11 @@ unsigned int largest_fib(unsigned int num) {
 } // largest_fib might be useless
 
 unsigned int init_allocator(unsigned int _basic_block_size, unsigned int _length) {
-    
-    try {
+
         // Make sure length is properly divisible
         if(_length % _basic_block_size != 0) {
             _length += _length % _basic_block_size;
         }
-        
         
         memory = malloc(_length);
         
@@ -167,10 +147,7 @@ unsigned int init_allocator(unsigned int _basic_block_size, unsigned int _length
             sum += block_amount;
         }
         return _length;
-    } catch(...) {
-        return 0;
-    }
-    
+
 }
 
 extern Addr my_malloc(unsigned int _length) {
